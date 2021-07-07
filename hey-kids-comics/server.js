@@ -28,6 +28,28 @@ app.get(`/query`, (req, res) => {
     })
 });
 
+app.get('/collection/:list', (req, res) => {
+  let collectionName = req.params.list;
+  return getCollection({collection: collectionName})
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      res.send(err);
+    })
+})
+
+app.post('/save', (req, res) => {
+  let userResults = req.data;
+  return saveIssue(userResults)
+    .then((data) => {
+      res.status(201);
+    })
+    .catch((err) => {
+      res.status(401);
+    })
+})
+
 // app.get('/products/:id/related', (req,res) => {
 //   let productId = Number(req.params.id);
 
