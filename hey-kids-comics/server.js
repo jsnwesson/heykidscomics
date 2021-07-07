@@ -4,7 +4,7 @@ const axios = require('axios');
 const port = 3000;
 const path = require('path');
 const {Params, url, time} = require('./config.js')
-// const { getProduct, getRelated, getStyles } = require('./database/index.js')
+const { saveIssue, getCollection } = require('./database/index.js')
 
 app.use(express.static(path.join(__dirname, 'public')))
 
