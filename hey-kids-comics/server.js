@@ -13,14 +13,13 @@ app.get(`/query`, (req, res) => {
   let query = Object.keys(req.query)[0];
   let request = req.query[query]
 
-  const configMarvel = {
+  const searchRequest = {
     method: 'GET',
-    url: `${url}series?${query}=${request}&contains=comic&orderBy=startYear&ts=${time()}&apikey=${Params.apikey}&hash=${Params.hash()}`,
+    url: `${url}${query}?titleStartsWith=${request}&contains=comic&orderBy=startYear&ts=${time()}&apikey=${Params.apikey}&hash=${Params.hash()}`,
   };
 
-  axios(configMarvel)
+  axios(searchRequest)
     .then((result) => {
-      console.log(result.data.data.results)
       res.send(result.data.data.results);
     })
     .catch((err) => {
@@ -28,9 +27,25 @@ app.get(`/query`, (req, res) => {
     })
 });
 
+app.get('/issues', (req, res) => {
+  let seriesId = req.query.seriesId;
+  let offset = req.query.offset * 50 || 0;
+  const issuesRequest = {
+    method: 'GET',
+    url: `${url}/series/${seriesId}/comics?format=comic&noVariants=true&orderBy=issueNumber&limit=50&offset=${offset}&ts=${time()}&apikey=${Params.apikey}&hash=${Params.hash()}`
+  }
+  axios(issuesRequest)
+    .then((result) => {
+      res.send(result.data);
+    })
+    .catch((err) => {
+      res.send(err);
+    })
+})
+
 app.get('/collection/:list', (req, res) => {
   let collectionName = req.params.list;
-  return getCollection({collection: collectionName})
+  return getCollection({listCollection: collectionName})
     .then((data) => {
       res.send(data);
     })

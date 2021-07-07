@@ -16,23 +16,33 @@ let list = mongoose.Schema({
   issue: Number,
   thumbnail: String,
   image: String,
-  collection: String,
+  listCollection: String,
   read: Boolean,
 })
 
-let Collection = mongoose.model('collections', list);
+let List = mongoose.model('lists', list);
+
+let getCollection = (request) => {
+  List.find(request)
+    .then(data => {
+      return data;
+    })
+    .catch(err => {
+      console.log(err);
+    })
+}
 
 let saveIssue = (userResults) => {
   let savedData = [];
   userResults.forEach((data) => {
-    const entry = new Collection({
+    const entry = new List({
       id: data.id,
       digitalId: data.digitalId,
       title: data.title,
       issue: data.issue,
       thumbnail: data.thumbnail,
       image: data.image,
-      collection: data.collection,
+      listCollection: data.collection,
       read: false,
     })
     savedData.push(entry.save((err, savedResponse) => {
@@ -46,3 +56,4 @@ let saveIssue = (userResults) => {
 };
 
 module.exports.saveIssue = saveIssue;
+module.exports.getCollection = getCollection;
