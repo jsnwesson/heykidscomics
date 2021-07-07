@@ -7,7 +7,7 @@ const {Params, url, time} = require('./config.js')
 // const { getProduct, getRelated, getStyles } = require('./database/index.js')
 
 app.use(express.static(path.join(__dirname, 'public')))
-console.log(typeof Params.apikey)
+
 //get by comic
 app.get(`/query`, (req, res) => {
   let query = Object.keys(req.query)[0];
@@ -15,13 +15,13 @@ app.get(`/query`, (req, res) => {
 
   const configMarvel = {
     method: 'GET',
-    url: `${url}comics?${query}=${request}&ts=${time()}&apikey=${Params.apikey}&hash=${Params.hash()}`,
+    url: `${url}series?${query}=${request}&contains=comic&orderBy=startYear&ts=${time()}&apikey=${Params.apikey}&hash=${Params.hash()}`,
   };
 
   axios(configMarvel)
     .then((result) => {
-      console.log(result.data)
-      res.send(result.data);
+      console.log(result.data.data.results)
+      res.send(result.data.data.results);
     })
     .catch((err) => {
       res.send(err);
