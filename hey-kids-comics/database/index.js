@@ -22,9 +22,13 @@ let list = mongoose.Schema({
   read: Boolean,
 })
 
+let listTitles = mongoose.Schema({
+  title: {type: String, unique: true},
+})
+
 list.plugin(AutoIncrement, {id: 'order_seq', inc_field: 'id'});
 let List = mongoose.model('lists', list);
-
+let ListTitles = mongoose.model('listtitles', listTitles);
 
 let getCollection = (request, callback) => {
   List.find(request, (err, response) => {
@@ -32,6 +36,20 @@ let getCollection = (request, callback) => {
       callback(err, null);
     } else {
       callback(null, response);
+    }
+  })
+}
+
+let saveCollection = (collectionTitle, callback) => {
+  const title = new ListTitles ({
+    title: collectionTitle,
+  })
+
+  title.save((err, response) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(response);
     }
   })
 }
@@ -77,12 +95,9 @@ let saveIssue = (userResults, callback) => {
         callback(null, savedResponse);
       }
     })
-
-
-
-
   }
 };
 
+module.exports.saveCollection = saveCollection;
 module.exports.saveIssue = saveIssue;
 module.exports.getCollection = getCollection;

@@ -4,7 +4,7 @@ const axios = require('axios');
 const port = 3000;
 const path = require('path');
 const {Params, url, time} = require('./config.js')
-const { saveIssue, getCollection } = require('./database/index.js')
+const { getCollection, saveCollection, saveIssue } = require('./database/index.js')
 
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.json())
@@ -56,8 +56,10 @@ app.get('/collection', (req, res) => {
   })
 })
 
-app.post('/save', (req, res) => {
+app.post('/saveIssues', (req, res) => {
   let userResults = req.body;
+  let collection = req.body.listCollection;
+  saveCollection(collection)
   saveIssue(userResults, (err, response) => {
     if (err) {
       res.status(400).end();
@@ -66,30 +68,6 @@ app.post('/save', (req, res) => {
     }
   })
 })
-
-// app.get('/products/:id/related', (req,res) => {
-//   let productId = Number(req.params.id);
-
-//   getRelated({current_product_id: productId}, (err, data) => {
-//     if (err) {
-//       res.send(err);
-//     } else {
-//       res.send(data);
-//     }
-//   })
-// })
-
-// app.get('/products/:id/styles', (req, res) => {
-//   let productId = Number(req.params.id);
-
-//   getStyles({productId: productId}, (err, data) => {
-//     if (err) {
-//       res.send(err);
-//     } else {
-//       res.send(data);
-//     }
-//   })
-// })
 
 app.listen(port, () =>
   console.log(`Example app listening at http://localhost:${port}`)
