@@ -35,24 +35,24 @@ app.get('/issues', (req, res) => {
     method: 'GET',
     url: `${url}/series/${seriesId}/comics?format=comic&noVariants=true&orderBy=issueNumber&limit=50&offset=${offset}&ts=${time()}&apikey=${Params.apikey}&hash=${Params.hash()}`
   }
-  axios(issuesRequest, (err, result) => {
-    if (err) {
-      res.status(404).send(err);
-    } else {
+  axios(issuesRequest)
+    .then((result) => {
       res.status(200).send(result.data);
-    }
-  })
+    })
+    .catch((err) => {
+      res.status(404).send(err);
+    })
 })
 
 app.get('/collection/:list', (req, res) => {
   let collectionName = req.params.list;
-  getCollection({listCollection: collectionName}, (err, data) => {
-    if (err) {
+  getCollection({listCollection: collectionName})
+    .then((result) => {
+      res.status(200).send(result.data);
+    })
+    .catch((err) => {
       res.status(404).send(err);
-    } else {
-      res.status(200).send(data)
-    }
-  })
+    })
 })
 
 app.post('/save', (req, res) => {

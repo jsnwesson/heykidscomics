@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 mongoose.connect('mongodb://localhost/marvel', {useNewUrlParser: true,  useCreateIndex: true, useUnifiedTopology: true});
 const db = mongoose.connection;
@@ -11,6 +12,7 @@ db.once('open', function() {
 
 let list = mongoose.Schema({
   id: {type: Number, unique: true},
+  issueId: {type: Number, unique: true},
   digitalId: Number,
   title: String,
   issue: Number,
@@ -20,7 +22,9 @@ let list = mongoose.Schema({
   read: Boolean,
 })
 
+list.plugin(AutoIncrement, {id: 'order_seq', inc_field: 'id'});
 let List = mongoose.model('lists', list);
+
 
 let getCollection = (request, callback) => {
   List.find(request, (err, response) => {
@@ -37,7 +41,7 @@ let saveIssue = (userResults, callback) => {
   if (Array.isArray(userResults)) {
     userResults.forEach((data) => {
       const entry = new List({
-        id: data.id,
+        issueId: data.id,
         digitalId: data.digitalId,
         title: data.title,
         issue: data.issue,
@@ -56,7 +60,7 @@ let saveIssue = (userResults, callback) => {
     })
   } else {
     const entry = new List({
-      id: userResults.id,
+      issueId: userResults.id,
       digitalId: userResults.digitalId,
       title: userResults.title,
       issue: userResults.issue,
@@ -67,6 +71,7 @@ let saveIssue = (userResults, callback) => {
     });
     entry.save((err, savedResponse) => {
       if (err) {
+        console.log(err)
         callback(err, null);
       } else {
         callback(null, savedResponse);
