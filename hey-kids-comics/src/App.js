@@ -59,7 +59,6 @@ class App extends React.Component {
     axios.get('http://localhost:3000/issues', {params: {seriesId: id}})
       .then((results) => {
         let data = results.data.data.results;
-        console.log(data[0])
         let issueResults = data.map((entry) => {
           return {
             id: entry.id,
