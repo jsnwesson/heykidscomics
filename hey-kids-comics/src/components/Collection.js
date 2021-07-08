@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Card, Divider, Icon, Image, Modal } from 'semantic-ui-react';
+import { Button, Card, Image, Modal } from 'semantic-ui-react';
 
 
 const Collection = ({collectionNames, currentCollection, getCollection}) => {
@@ -7,12 +7,6 @@ const Collection = ({collectionNames, currentCollection, getCollection}) => {
 
   let list = collectionNames.map((name) => {
     return (
-      // <Modal
-      //   key={name}
-      //   onClick={() => {
-      //     getCollection(name)
-      //   }}
-      // >
       <Modal
         key={name}
         open={open}
@@ -42,10 +36,6 @@ const Collection = ({collectionNames, currentCollection, getCollection}) => {
                       rel='noreferrer'>
                       {issue.title}
                     </Card.Header>
-                    {/* <a
-                      href={issue.digitalId > 0 ? `https://read.marvel.com/#/book/${issue.digitalId}` : issue.url}
-                      target='_blank'
-                      rel='noreferrer'>{issue.title}</a> */}
                   </Card.Content>
                 </Card>
               </Modal.Content>
