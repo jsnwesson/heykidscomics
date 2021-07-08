@@ -50,6 +50,7 @@ app.get('/collection', (req, res) => {
     if (err) {
       res.status(404).send(err);
     } else {
+      console.log(result)
       res.status(200).send(result);
     }
   })

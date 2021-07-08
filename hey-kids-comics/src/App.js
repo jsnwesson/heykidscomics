@@ -11,21 +11,23 @@ class App extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      collectionNames: [],
       currentCollection: [],
       currentIssuesQuery: [],
       currentSeries: {},
       currentSeriesQuery: [],
       toBeAdded: [],
     }
+
+    this.getCollection = this.getCollection.bind(this);
+    this.getCollectionList = this.getCollectionList.bind(this);
     this.searchSeries = this.searchSeries.bind(this);
     this.searchIssues = this.searchIssues.bind(this);
   }
 
   componentDidMount() {
-    axios.get('http://localhost:3000/collectionlist')
-      .then((data) => {
-        console.log(data)
-      })
+    this.getCollectionList();
+    this.getCollection('Everything Dies');
   }
 
   searchSeries() {
@@ -38,8 +40,31 @@ class App extends React.Component {
       //setState with issues results
   }
 
-  getCollection() {
-    axios.get('http://localhost:3000/collection')
+  getCollection(value) {
+    axios.get('http://localhost:3000/collection', {params: {listCollection: value}})
+      .then((response) => {
+        this.setState({
+          currentCollection: response.data,
+        })
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }
+
+  getCollectionList() {
+    axios.get('http://localhost:3000/collectionlist')
+    .then((response) => {
+      let names = (response.data.map((collection) => {
+        return collection.title;
+      }))
+      this.setState({
+        collectionNames: names,
+      })
+    })
+    .catch((err) => {
+      console.log(err);
+    })
   }
 
   postCollection() {
