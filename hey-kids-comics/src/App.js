@@ -19,6 +19,7 @@ class App extends React.Component {
       toBeAdded: [],
     }
 
+    this.addToList = this.addToList.bind(this);
     this.getCollection = this.getCollection.bind(this);
     this.getCollectionList = this.getCollectionList.bind(this);
     this.searchSeries = this.searchSeries.bind(this);
@@ -27,6 +28,13 @@ class App extends React.Component {
 
   componentDidMount() {
     this.getCollectionList();
+  }
+
+  addToList(issue) {
+    let prevAdded = this.state.toBeAdded;
+    this.setState({
+      toBeAdded: [...prevAdded, issue]
+    })
   }
 
   searchSeries(term) {
@@ -119,6 +127,7 @@ class App extends React.Component {
           </Grid.Column>
           <Grid.Column width={10}>
             <Feed
+              addToList={this.addToList}
               currentSeriesQuery={this.state.currentSeriesQuery}
               currentIssuesQuery={this.state.currentIssuesQuery}
               searchIssues={this.searchIssues}

@@ -19,7 +19,8 @@ const Collection = ({collectionNames, currentCollection, getCollection}) => {
           {currentCollection.map((issue) => {
             return (
               <Modal.Content key={issue.id}>
-                <Card centered color='red' raised size='small'>
+                <Card centered color='red' raised
+                >
                   <Image
                     as='a'
                     href={issue.digitalId > 0 ? `https://read.marvel.com/#/book/${issue.digitalId}` : issue.url}
