@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const axios = require('axios');
-const port = 3000;
+const port = 3030;
 const path = require('path');
 const {Params, url, time} = require('./config.js')
 const { getCollection, saveCollection, saveIssue } = require('./database/index.js')
@@ -21,8 +21,7 @@ app.get(`/query`, (req, res) => {
 
   axios(searchRequest)
     .then((result) => {
-      console.log(result.data)
-      res.status(200).send(result.dataclear);
+      res.status(200).send(result.data);
     })
     .catch((err) => {
       res.status(404).send(err);

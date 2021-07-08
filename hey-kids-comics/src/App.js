@@ -1,10 +1,13 @@
 import './App.css';
 import React from 'react';
 import axios from 'axios';
-import {Header, Search, Feed, Collection} from './components'
+import {} from 'semantic-ui-react';
+import Header from './components/Header.js';
+import Search from './components/Search.js';
+import Feed from './components/Feed.js';
+import Collection from './components/Collection.js';
 
-
-class App extends React.Components {
+class App extends React.Component {
   constructor(props){
     super(props);
     this.state = {
