@@ -7,6 +7,7 @@ const {Params, url, time} = require('./config.js')
 const { saveIssue, getCollection } = require('./database/index.js')
 
 app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.json())
 
 //get by comic
 app.get(`/query`, (req, res) => {
@@ -18,13 +19,13 @@ app.get(`/query`, (req, res) => {
     url: `${url}${query}?titleStartsWith=${request}&contains=comic&orderBy=startYear&ts=${time()}&apikey=${Params.apikey}&hash=${Params.hash()}`,
   };
 
-  axios(searchRequest)
-    .then((result) => {
-      res.send(result.data.data.results);
-    })
-    .catch((err) => {
-      res.send(err);
-    })
+  axios(searchRequest, (err, result) => {
+    if (err) {
+      res.status(404).send(err);
+    } else {
+      res.status(200).send(result.data);
+    }
+  })
 });
 
 app.get('/issues', (req, res) => {
@@ -34,35 +35,35 @@ app.get('/issues', (req, res) => {
     method: 'GET',
     url: `${url}/series/${seriesId}/comics?format=comic&noVariants=true&orderBy=issueNumber&limit=50&offset=${offset}&ts=${time()}&apikey=${Params.apikey}&hash=${Params.hash()}`
   }
-  axios(issuesRequest)
-    .then((result) => {
-      res.send(result.data);
-    })
-    .catch((err) => {
-      res.send(err);
-    })
+  axios(issuesRequest, (err, result) => {
+    if (err) {
+      res.status(404).send(err);
+    } else {
+      res.status(200).send(result.data);
+    }
+  })
 })
 
 app.get('/collection/:list', (req, res) => {
   let collectionName = req.params.list;
-  return getCollection({listCollection: collectionName})
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((err) => {
-      res.send(err);
-    })
+  getCollection({listCollection: collectionName}, (err, data) => {
+    if (err) {
+      res.status(404).send(err);
+    } else {
+      res.status(200).send(data)
+    }
+  })
 })
 
 app.post('/save', (req, res) => {
-  let userResults = req.data;
-  return saveIssue(userResults)
-    .then((data) => {
-      res.status(201);
-    })
-    .catch((err) => {
-      res.status(401);
-    })
+  let userResults = req.body;
+  saveIssue(userResults, (err, response) => {
+    if (err) {
+      res.status(400).end();
+    } else {
+      res.status(201).end();
+    }
+  })
 })
 
 // app.get('/products/:id/related', (req,res) => {
