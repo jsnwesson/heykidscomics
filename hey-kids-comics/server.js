@@ -19,13 +19,14 @@ app.get(`/query`, (req, res) => {
     url: `${url}${query}?titleStartsWith=${request}&contains=comic&orderBy=startYear&ts=${time()}&apikey=${Params.apikey}&hash=${Params.hash()}`,
   };
 
-  axios(searchRequest, (err, result) => {
-    if (err) {
+  axios(searchRequest)
+    .then((result) => {
+      console.log(result.data)
+      res.status(200).send(result.dataclear);
+    })
+    .catch((err) => {
       res.status(404).send(err);
-    } else {
-      res.status(200).send(result.data);
-    }
-  })
+    })
 });
 
 app.get('/issues', (req, res) => {
