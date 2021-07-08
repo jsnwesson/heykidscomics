@@ -1,7 +1,7 @@
 import './App.css';
 import React from 'react';
 import axios from 'axios';
-import {} from 'semantic-ui-react';
+import { Grid } from 'semantic-ui-react';
 import Header from './components/Header.js';
 import Search from './components/Search.js';
 import Feed from './components/Feed.js';
@@ -27,7 +27,7 @@ class App extends React.Component {
 
   componentDidMount() {
     this.getCollectionList();
-    this.getCollection('Everything Dies');
+    // this.getCollection('Everything Dies');
   }
 
   searchSeries() {
@@ -74,13 +74,26 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Header />
-        <Search
-          searchSeries={this.searchSeries}
-          searchIssues={this.searchIssues}
-        />
-        <Feed />
-        <Collection />
+        <Grid.Row>
+          <Header />
+        </Grid.Row>
+        <Grid.Row>
+          <Search
+            searchSeries={this.searchSeries}
+            searchIssues={this.searchIssues}
+            />
+        </Grid.Row>
+        <Grid.Row>
+          <Grid.Column>
+            <Feed />
+          </Grid.Column>
+          <Grid.Column>
+            <Collection
+              collectionNames={this.state.collectionNames}
+              currentCollection={this.state.currentCollection}
+              getCollection={this.getCollection} />
+          </Grid.Column>
+        </Grid.Row>
       </div>
     )
   }
