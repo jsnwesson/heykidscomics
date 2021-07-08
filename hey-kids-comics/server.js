@@ -9,14 +9,13 @@ const { getCollection, getCollectionList, saveCollection, saveIssue } = require(
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.json())
 
-//get by comic
+//get by comic series
 app.get(`/query`, (req, res) => {
-  let query = Object.keys(req.query)[0];
-  let request = req.query[query]
+  let request = req.query.series
 
   const searchRequest = {
     method: 'GET',
-    url: `${url}${query}?titleStartsWith=${request}&contains=comic&orderBy=startYear&ts=${time()}&apikey=${Params.apikey}&hash=${Params.hash()}`,
+    url: `${url}series?titleStartsWith=${request}&contains=comic&orderBy=startYear&ts=${time()}&apikey=${Params.apikey}&hash=${Params.hash()}`,
   };
 
   axios(searchRequest)

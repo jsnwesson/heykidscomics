@@ -27,12 +27,24 @@ class App extends React.Component {
 
   componentDidMount() {
     this.getCollectionList();
-    // this.getCollection('Everything Dies');
   }
 
-  searchSeries() {
-    axios.get('http://localhost:3000/query')
-      //setState with series results
+  searchSeries(term) {
+    axios.get('http://localhost:3000/query', {params: {series: term}})
+      .then((results) => {
+        let data = results.data.data.results;
+        let searchResults = data.map((entry) => {
+          return {
+            id: entry.id,
+            title: entry.title,
+            thumbnail: `${entry.thumbnail.path}.jpg`,
+            url: entry.urls[0].url,
+          }
+        })
+        this.setState({
+          currentSeriesQuery: searchResults,
+        })
+      })
   }
 
   searchIssues() {
@@ -85,7 +97,10 @@ class App extends React.Component {
         </Grid.Row>
         <Grid.Row>
           <Grid.Column>
-            <Feed />
+            <Feed
+              currentSeriesQuery={this.state.currentSeriesQuery}
+              currentIssuesQuery={this.state.currentIssuesQuery}
+            />
           </Grid.Column>
           <Grid.Column>
             <Collection
