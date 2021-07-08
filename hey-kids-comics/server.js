@@ -12,7 +12,6 @@ app.use(express.json())
 //get by comic series
 app.get(`/query`, (req, res) => {
   let request = req.query.series
-
   const searchRequest = {
     method: 'GET',
     url: `${url}series?titleStartsWith=${request}&contains=comic&orderBy=startYear&ts=${time()}&apikey=${Params.apikey}&hash=${Params.hash()}`,
@@ -49,7 +48,6 @@ app.get('/collection', (req, res) => {
     if (err) {
       res.status(404).send(err);
     } else {
-      console.log(result)
       res.status(200).send(result);
     }
   })

@@ -14,8 +14,8 @@ class App extends React.Component {
       collectionNames: [],
       currentCollection: [],
       currentIssuesQuery: [],
-      currentSeries: {},
-      currentSeriesQuery: [],
+      // currentSeries: {},
+      currentSeriesQuery: [{id: 1, title:'Search for any Marvel comic!', thumbnail: 'https://upload.wikimedia.org/wikipedia/commons/b/b9/Marvel_Logo.svg'}],
       toBeAdded: [],
     }
 
@@ -47,9 +47,25 @@ class App extends React.Component {
       })
   }
 
-  searchIssues() {
-    axios.get('http://localhost:3000/issues')
-      //setState with issues results
+  searchIssues(id) {
+    axios.get('http://localhost:3000/issues', {params: {seriesId: id}})
+      .then((results) => {
+        let data = results.data.data.results;
+        console.log(data[0])
+        let issueResults = data.map((entry) => {
+          return {
+            id: entry.id,
+            issue: entry.issueNumber,
+            digitalId: entry.digitalId,
+            thumbnail: `${entry.thumbnail.path}.jpg`,
+            title: entry.title,
+            url: entry.urls[0].url,
+          }
+        })
+        this.setState({
+          currentIssuesQuery: issueResults,
+        })
+      })
   }
 
   getCollection(value) {
@@ -89,20 +105,26 @@ class App extends React.Component {
         <Grid.Row>
           <Header />
         </Grid.Row>
-        <Grid.Row>
+        {/* <Grid.Row>
           <Search
             searchSeries={this.searchSeries}
             searchIssues={this.searchIssues}
             />
-        </Grid.Row>
+        </Grid.Row> */}
         <Grid.Row>
-          <Grid.Column>
+          <Grid.Column width={3}>
+            <Search
+              searchSeries={this.searchSeries}
+            />
+          </Grid.Column>
+          <Grid.Column width={10}>
             <Feed
               currentSeriesQuery={this.state.currentSeriesQuery}
               currentIssuesQuery={this.state.currentIssuesQuery}
+              searchIssues={this.searchIssues}
             />
           </Grid.Column>
-          <Grid.Column>
+          <Grid.Column width={3}>
             <Collection
               collectionNames={this.state.collectionNames}
               currentCollection={this.state.currentCollection}
