@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Image, Modal } from 'semantic-ui-react';
+import { Button, Card, Divider, Icon, Image, Modal } from 'semantic-ui-react';
 
 
 const Collection = ({collectionNames, currentCollection, getCollection}) => {
@@ -18,23 +18,36 @@ const Collection = ({collectionNames, currentCollection, getCollection}) => {
         open={open}
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
+        size='tiny'
         trigger={<Button onClick={() => {getCollection(name)}}>{name}</Button>}
       >
         <Modal.Header>{name}</Modal.Header>
           {currentCollection.map((issue) => {
             return (
-              <Modal.Content key={issue.id} image scrolling>
-                <Image
-                  as='a'
-                  href={issue.digitalId > 0 ? `https://read.marvel.com/#/book/${issue.digitalId}` : issue.url}
-                  rel='noreferrer'
-                  size='small'
-                  src={issue.thumbnail}
-                  target='_blank'
-                  wrapped/>
-                <Modal.Description>
-                  <a href={issue.digitalId > 0 ? `https://read.marvel.com/#/book/${issue.digitalId}` : issue.url} target='_blank' rel='noreferrer'  >{issue.title}</a>
-                </Modal.Description>
+              <Modal.Content key={issue.id}>
+                <Card centered color='red' raised size='small'>
+                  <Image
+                    as='a'
+                    href={issue.digitalId > 0 ? `https://read.marvel.com/#/book/${issue.digitalId}` : issue.url}
+                    label={issue.digitalId > 0 ? { as: 'a', color: 'red', corner: 'right', icon: 'desktop' } : null}
+                    rel='noreferrer'
+                    size='medium'
+                    src={issue.thumbnail}
+                    target='_blank'
+                    wrapped/>
+                  <Card.Content textAlign='center'>
+                    <Card.Header
+                      href={issue.digitalId > 0 ? `https://read.marvel.com/#/book/${issue.digitalId}` : issue.url}
+                      target='_blank'
+                      rel='noreferrer'>
+                      {issue.title}
+                    </Card.Header>
+                    {/* <a
+                      href={issue.digitalId > 0 ? `https://read.marvel.com/#/book/${issue.digitalId}` : issue.url}
+                      target='_blank'
+                      rel='noreferrer'>{issue.title}</a> */}
+                  </Card.Content>
+                </Card>
               </Modal.Content>
             )
           })}
