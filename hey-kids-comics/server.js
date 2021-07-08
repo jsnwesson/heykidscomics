@@ -44,15 +44,16 @@ app.get('/issues', (req, res) => {
     })
 })
 
-app.get('/collection/:list', (req, res) => {
-  let collectionName = req.params.list;
-  getCollection({listCollection: collectionName})
-    .then((result) => {
-      res.status(200).send(result.data);
-    })
-    .catch((err) => {
+app.get('/collection', (req, res) => {
+  let collectionName = req.query.listCollection;
+  console.log(req.query.listCollection)
+  getCollection({listCollection: collectionName}, (err, result) => {
+    if (err) {
       res.status(404).send(err);
-    })
+    } else {
+      res.status(200).send(result);
+    }
+  })
 })
 
 app.post('/save', (req, res) => {

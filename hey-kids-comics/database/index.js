@@ -47,7 +47,7 @@ let saveIssue = (userResults, callback) => {
         issue: data.issue,
         thumbnail: data.thumbnail,
         url: data.url,
-        listCollection: data.collection,
+        listCollection: data.listCollection,
         read: false,
       })
       savedData.push(entry.save((err, savedResponse) => {
@@ -66,7 +66,7 @@ let saveIssue = (userResults, callback) => {
       issue: userResults.issue,
       thumbnail: userResults.thumbnail,
       url: userResults.url,
-      listCollection: userResults.collection,
+      listCollection: userResults.listCollection,
       read: false,
     });
     entry.save((err, savedResponse) => {
