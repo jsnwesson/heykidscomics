@@ -40,6 +40,16 @@ let getCollection = (request, callback) => {
   })
 }
 
+let getCollectionList = (callback) => {
+  ListTitles.find({}, (err, data) => {
+    if (err) {
+      callback(err, null);
+    } else {
+      callback(null, data);
+    }
+  })
+}
+
 let saveCollection = (collectionTitle, callback) => {
   const title = new ListTitles ({
     title: collectionTitle,
@@ -98,6 +108,8 @@ let saveIssue = (userResults, callback) => {
   }
 };
 
+
 module.exports.saveCollection = saveCollection;
 module.exports.saveIssue = saveIssue;
 module.exports.getCollection = getCollection;
+module.exports.getCollectionList = getCollectionList;

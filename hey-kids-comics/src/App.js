@@ -22,7 +22,10 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-
+    axios.get('http://localhost:3000/collectionlist')
+      .then((data) => {
+        console.log(data)
+      })
   }
 
   searchSeries() {

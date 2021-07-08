@@ -4,7 +4,7 @@ const axios = require('axios');
 const port = 3030;
 const path = require('path');
 const {Params, url, time} = require('./config.js')
-const { getCollection, saveCollection, saveIssue } = require('./database/index.js')
+const { getCollection, getCollectionList, saveCollection, saveIssue } = require('./database/index.js')
 
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.json())
@@ -46,12 +46,21 @@ app.get('/issues', (req, res) => {
 
 app.get('/collection', (req, res) => {
   let collectionName = req.query.listCollection;
-  console.log(req.query.listCollection)
   getCollection({listCollection: collectionName}, (err, result) => {
     if (err) {
       res.status(404).send(err);
     } else {
       res.status(200).send(result);
+    }
+  })
+})
+
+app.get('/collectionlist', (req, res) => {
+  getCollectionList((err, response) => {
+    if (err) {
+      res.status(404).send(err);
+    } else {
+      res.status(200).send(response);
     }
   })
 })
