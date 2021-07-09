@@ -153,14 +153,14 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
-        <Grid>
-          <Grid.Row stretched>
-            <Grid.Column width={14}>
+      <div className="App">
+        <Grid id='grid'>
+          <Grid.Row >
+            <Grid.Column width={16}>
               <Header />
             </Grid.Column>
           </Grid.Row>
-          <Grid.Row columns={3} textAlign='center'>
+          <Grid.Row className='App-header' centered columns={3} textAlign='center'>
             <Grid.Column width={3}>
               <Search
                 collectionToAddTo={this.state.collectionToAddTo}
@@ -181,7 +181,7 @@ class App extends React.Component {
                 searchIssues={this.searchIssues}
               />
             </Grid.Column>
-            <Grid.Column width={3}>
+            <Grid.Column textAlign='right' width={3}>
               <Collection
                 collectionNames={this.state.collectionNames}
                 currentCollection={this.state.currentCollection}

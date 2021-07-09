@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Card, Image, Modal, Segment } from 'semantic-ui-react';
+import './components.css'
 
 const Feed = ({addToList, currentSeriesQuery, currentIssuesQuery, searchIssues}) => {
   const [open, setOpen] = React.useState(false)

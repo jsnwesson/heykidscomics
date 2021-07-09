@@ -1,3 +1,11 @@
 #topHeader{
-  background-color:peru;
+  background-color:#F0131E;
+}
+
+form.ui.form .field label{
+  color: white;
+}
+
+div.ui.segment{
+  background-color:#959da0;
 }

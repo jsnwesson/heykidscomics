@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Button, Form } from 'semantic-ui-react';
+import './components.css'
 
 const Search = ({collectionToAddTo, handleCollectionName, searchSeries}) => {
   const [term, setTerm] = useState('');

@@ -7,7 +7,6 @@ const Collection = ({collectionNames, currentCollection, getCollection}) => {
   const [open, setOpen] = React.useState(false)
 
   let list = collectionNames.map((name) => {
-    console.log(name)
     return (
       <div key={name}>
       <Modal
