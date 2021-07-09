@@ -20,6 +20,7 @@ const Search = ({collectionToAddTo, handleCollectionName, searchSeries}) => {
             onChange={(e) => {handleCollectionName(e.target.value)}}
           />
           <Button
+            disabled={collectionToAddTo === '' ? true : false}
             onClick={() => {
               searchSeries(term)
             }}

@@ -54,7 +54,7 @@ let saveCollection = (collectionTitle, callback) => {
   const title = new ListTitles ({
     title: collectionTitle,
   })
-
+  console.log(title, collectionTitle)
   title.save((err, response) => {
     if (err) {
       console.log(err);
@@ -99,7 +99,6 @@ let saveIssue = (userResults, callback) => {
     });
     entry.save((err, savedResponse) => {
       if (err) {
-        console.log(err)
         callback(err, null);
       } else {
         callback(null, savedResponse);

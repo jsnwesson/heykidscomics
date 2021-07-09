@@ -11,7 +11,7 @@ class App extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      collectionToAddTo: 'Everything Dies',
+      collectionToAddTo: '',
       collectionNames: [],
       currentCollection: [],
       currentIssuesQuery: [],
@@ -117,13 +117,15 @@ class App extends React.Component {
   }
 
   postCollection() {
-    if (this.state.collectionNames.includes(this.state.collectionToAddTo) < 0) {
+    if (this.state.collectionNames.indexOf(this.state.collectionToAddTo) < 0) {
       axios.post('http://localhost:3000/saveIssues', {
         collectionToAddTo: this.state.collectionToAddTo,
         toBeAdded: this.state.toBeAdded,
       })
         .then((response) => {
-          console.log(response);
+          this.setState({
+            toBeAdded: [],
+          })
         })
         .catch((err) => {
           console.log(err);
@@ -133,7 +135,9 @@ class App extends React.Component {
         toBeAdded: this.state.toBeAdded,
       })
         .then((response) => {
-          console.log(response);
+          this.setState({
+            toBeAdded: [],
+          })
         })
         .catch((err) => {
           console.log(err);

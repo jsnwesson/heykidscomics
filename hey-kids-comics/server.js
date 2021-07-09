@@ -66,7 +66,6 @@ app.get('/collectionlist', (req, res) => {
 app.post('/saveIssues', (req, res) => {
   let userResults = req.body.toBeAdded;
   let collection = req.body.collectionToAddTo;
-  console.log(userResults)
   if (collection !== undefined) {
     saveCollection(collection)
   }
