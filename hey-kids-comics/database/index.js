@@ -69,7 +69,7 @@ let saveIssue = (userResults, callback) => {
   if (Array.isArray(userResults)) {
     userResults.forEach((data) => {
       const entry = new List({
-        issueId: data.id,
+        issueId: data.issueId,
         digitalId: data.digitalId,
         title: data.title,
         issue: data.issue,

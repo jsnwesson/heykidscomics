@@ -27,7 +27,7 @@ const Feed = ({addToList, currentSeriesQuery, currentIssuesQuery, searchIssues})
                   <Modal.Content key={issue.title}>
                     <Card centered color='red' onClick={() => {addToList(issue)}} raised >
                       <Image
-                        label={issue.digitalId > 0 ? { as: 'a', color: 'red', corner: 'right', icon: 'desktop' } : null}
+                        label={issue.digitalId > 0 ? { color: 'red', corner: 'right', icon: 'desktop' } : null}
                         src={issue.thumbnail}
                         wrapped
                       />

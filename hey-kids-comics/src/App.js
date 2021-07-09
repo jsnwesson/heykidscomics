@@ -1,7 +1,7 @@
 import './App.css';
 import React from 'react';
 import axios from 'axios';
-import { Grid } from 'semantic-ui-react';
+import { Button, Grid } from 'semantic-ui-react';
 import Header from './components/Header.js';
 import Search from './components/Search.js';
 import Feed from './components/Feed.js';
@@ -11,10 +11,10 @@ class App extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      collectionToAddTo: 'Everything Dies',
       collectionNames: [],
       currentCollection: [],
       currentIssuesQuery: [],
-      // currentSeries: {},
       currentSeriesQuery: [{id: 1, title:'Search for any Marvel comic!', thumbnail: 'https://upload.wikimedia.org/wikipedia/commons/b/b9/Marvel_Logo.svg'}],
       toBeAdded: [],
     }
@@ -22,6 +22,7 @@ class App extends React.Component {
     this.addToList = this.addToList.bind(this);
     this.getCollection = this.getCollection.bind(this);
     this.getCollectionList = this.getCollectionList.bind(this);
+    this.handleCollectionName = this.handleCollectionName.bind(this);
     this.searchSeries = this.searchSeries.bind(this);
     this.searchIssues = this.searchIssues.bind(this);
   }
@@ -34,6 +35,12 @@ class App extends React.Component {
     let prevAdded = this.state.toBeAdded;
     this.setState({
       toBeAdded: [...prevAdded, issue]
+    })
+  }
+
+  handleCollectionName(term) {
+    this.setState({
+      collectionToAddTo: term,
     })
   }
 
@@ -53,6 +60,9 @@ class App extends React.Component {
           currentSeriesQuery: searchResults,
         })
       })
+      .catch((err) => {
+        console.log(err)
+      })
   }
 
   searchIssues(id) {
@@ -61,7 +71,8 @@ class App extends React.Component {
         let data = results.data.data.results;
         let issueResults = data.map((entry) => {
           return {
-            id: entry.id,
+            listCollection:this.state.collectionToAddTo,
+            issueId: entry.id,
             issue: entry.issueNumber,
             digitalId: entry.digitalId,
             thumbnail: `${entry.thumbnail.path}.jpg`,
@@ -72,6 +83,9 @@ class App extends React.Component {
         this.setState({
           currentIssuesQuery: issueResults,
         })
+      })
+      .catch((err) => {
+        console.log(err)
       })
   }
 
@@ -103,7 +117,28 @@ class App extends React.Component {
   }
 
   postCollection() {
-    axios.post('http://localhost:3000/saveIssues')
+    if (this.state.collectionNames.includes(this.state.collectionToAddTo) < 0) {
+      axios.post('http://localhost:3000/saveIssues', {
+        collectionToAddTo: this.state.collectionToAddTo,
+        toBeAdded: this.state.toBeAdded,
+      })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    } else {
+      axios.post('http://localhost:3000/saveIssues', {
+        toBeAdded: this.state.toBeAdded,
+      })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    }
   }
 
   render() {
@@ -121,8 +156,14 @@ class App extends React.Component {
         <Grid.Row>
           <Grid.Column width={3}>
             <Search
+              collectionToAddTo={this.state.collectionToAddTo}
+              handleCollectionName={this.handleCollectionName}
               searchSeries={this.searchSeries}
             />
+            <Button
+              disabled={this.state.toBeAdded.length === 0 ? true : false}
+              onClick={() => {this.postCollection()}}
+            >Submit to Collection</Button>
           </Grid.Column>
           <Grid.Column width={10}>
             <Feed

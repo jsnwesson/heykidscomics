@@ -24,7 +24,7 @@ const Collection = ({collectionNames, currentCollection, getCollection}) => {
                   <Image
                     as='a'
                     href={issue.digitalId > 0 ? `https://read.marvel.com/#/book/${issue.digitalId}` : issue.url}
-                    label={issue.digitalId > 0 ? { as: 'a', color: 'red', corner: 'right', icon: 'desktop' } : null}
+                    label={issue.digitalId > 0 ? { color: 'red', corner: 'right', icon: 'desktop' } : null}
                     rel='noreferrer'
                     size='medium'
                     src={issue.thumbnail}

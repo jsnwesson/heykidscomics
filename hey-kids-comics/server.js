@@ -64,9 +64,12 @@ app.get('/collectionlist', (req, res) => {
 })
 
 app.post('/saveIssues', (req, res) => {
-  let userResults = req.body;
-  let collection = req.body.listCollection;
-  saveCollection(collection)
+  let userResults = req.body.toBeAdded;
+  let collection = req.body.collectionToAddTo;
+  console.log(userResults)
+  if (collection !== undefined) {
+    saveCollection(collection)
+  }
   saveIssue(userResults, (err, response) => {
     if (err) {
       res.status(400).end();
