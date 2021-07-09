@@ -7,7 +7,7 @@ const Feed = ({addToList, currentSeriesQuery, currentIssuesQuery, searchIssues})
     const feed = currentSeriesQuery.map((series) => {
       return (
         <div key={series.id}>
-          <Segment>
+          <Segment size='tiny' textAlign='center'>
             <Image src={series.thumbnail} />
             <Modal
               key={series.id}

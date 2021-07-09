@@ -1,21 +1,22 @@
 import React from 'react';
-import { Button, Card, Image, Modal } from 'semantic-ui-react';
+import { Button, Card, Divider, Image, Modal } from 'semantic-ui-react';
+import './components.css'
 
 
 const Collection = ({collectionNames, currentCollection, getCollection}) => {
   const [open, setOpen] = React.useState(false)
 
   let list = collectionNames.map((name) => {
+    console.log(name)
     return (
+      <div key={name}>
       <Modal
-        key={name}
         open={open}
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         size='tiny'
         trigger={<Button onClick={() => {getCollection(name)}}>{name}</Button>}
       >
-        <Modal.Header>{name}</Modal.Header>
           {currentCollection.map((issue) => {
             return (
               <Modal.Content key={issue.id}>
@@ -43,10 +44,13 @@ const Collection = ({collectionNames, currentCollection, getCollection}) => {
             )
           })}
       </Modal>
+      <Divider />
+      </div>
     )
   })
   return (
-    <div>
+    <div className='collection'>
+      <h2>Collections</h2>
       <ul>
         {list}
       </ul>

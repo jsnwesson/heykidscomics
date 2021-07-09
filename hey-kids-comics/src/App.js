@@ -1,7 +1,7 @@
 import './App.css';
 import React from 'react';
 import axios from 'axios';
-import { Button, Grid } from 'semantic-ui-react';
+import { Button, Divider, Grid } from 'semantic-ui-react';
 import Header from './components/Header.js';
 import Search from './components/Search.js';
 import Feed from './components/Feed.js';
@@ -130,6 +130,9 @@ class App extends React.Component {
         .catch((err) => {
           console.log(err);
         })
+        .then(() => {
+          this.getCollectionList();
+        })
     } else {
       axios.post('http://localhost:3000/saveIssues', {
         toBeAdded: this.state.toBeAdded,
@@ -142,48 +145,50 @@ class App extends React.Component {
         .catch((err) => {
           console.log(err);
         })
+        .then(() => {
+          this.getCollectionList();
+        })
     }
   }
 
   render() {
     return (
       <div>
-        <Grid.Row>
-          <Header />
-        </Grid.Row>
-        {/* <Grid.Row>
-          <Search
-            searchSeries={this.searchSeries}
-            searchIssues={this.searchIssues}
-            />
-        </Grid.Row> */}
-        <Grid.Row>
-          <Grid.Column width={3}>
-            <Search
-              collectionToAddTo={this.state.collectionToAddTo}
-              handleCollectionName={this.handleCollectionName}
-              searchSeries={this.searchSeries}
-            />
-            <Button
-              disabled={this.state.toBeAdded.length === 0 ? true : false}
-              onClick={() => {this.postCollection()}}
-            >Submit to Collection</Button>
-          </Grid.Column>
-          <Grid.Column width={10}>
-            <Feed
-              addToList={this.addToList}
-              currentSeriesQuery={this.state.currentSeriesQuery}
-              currentIssuesQuery={this.state.currentIssuesQuery}
-              searchIssues={this.searchIssues}
-            />
-          </Grid.Column>
-          <Grid.Column width={3}>
-            <Collection
-              collectionNames={this.state.collectionNames}
-              currentCollection={this.state.currentCollection}
-              getCollection={this.getCollection} />
-          </Grid.Column>
-        </Grid.Row>
+        <Grid>
+          <Grid.Row stretched>
+            <Grid.Column width={14}>
+              <Header />
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row columns={3} textAlign='center'>
+            <Grid.Column width={3}>
+              <Search
+                collectionToAddTo={this.state.collectionToAddTo}
+                handleCollectionName={this.handleCollectionName}
+                searchSeries={this.searchSeries}
+              />
+              <Divider hidden />
+              <Button
+                disabled={this.state.toBeAdded.length === 0 ? true : false}
+                onClick={() => {this.postCollection()}}
+              >Submit to Collection</Button>
+            </Grid.Column>
+            <Grid.Column width={8}>
+              <Feed
+                addToList={this.addToList}
+                currentSeriesQuery={this.state.currentSeriesQuery}
+                currentIssuesQuery={this.state.currentIssuesQuery}
+                searchIssues={this.searchIssues}
+              />
+            </Grid.Column>
+            <Grid.Column width={3}>
+              <Collection
+                collectionNames={this.state.collectionNames}
+                currentCollection={this.state.currentCollection}
+                getCollection={this.getCollection} />
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
       </div>
     )
   }
