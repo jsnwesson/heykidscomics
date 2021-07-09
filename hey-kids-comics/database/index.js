@@ -66,7 +66,7 @@ let saveCollection = (collectionTitle, callback) => {
 
 let saveIssue = (userResults, callback) => {
   let savedData = [];
-  if (Array.isArray(userResults)) {
+  // if (Array.isArray(userResults)) {
     userResults.forEach((data) => {
       const entry = new List({
         issueId: data.issueId,
@@ -86,25 +86,25 @@ let saveIssue = (userResults, callback) => {
         }
       }));
     })
-  } else {
-    const entry = new List({
-      issueId: userResults.id,
-      digitalId: userResults.digitalId,
-      title: userResults.title,
-      issue: userResults.issue,
-      thumbnail: userResults.thumbnail,
-      url: userResults.url,
-      listCollection: userResults.listCollection,
-      read: false,
-    });
-    entry.save((err, savedResponse) => {
-      if (err) {
-        callback(err, null);
-      } else {
-        callback(null, savedResponse);
-      }
-    })
-  }
+  // } else {
+  //   const entry = new List({
+  //     issueId: userResults.id,
+  //     digitalId: userResults.digitalId,
+  //     title: userResults.title,
+  //     issue: userResults.issue,
+  //     thumbnail: userResults.thumbnail,
+  //     url: userResults.url,
+  //     listCollection: userResults.listCollection,
+  //     read: false,
+  //   });
+  //   entry.save((err, savedResponse) => {
+  //     if (err) {
+  //       callback(err, null);
+  //     } else {
+  //       callback(null, savedResponse);
+  //     }
+  //   })
+  // }
 };
 
 
@@ -112,3 +112,24 @@ module.exports.saveCollection = saveCollection;
 module.exports.saveIssue = saveIssue;
 module.exports.getCollection = getCollection;
 module.exports.getCollectionList = getCollectionList;
+
+// let savedData = userResults.map((data) => {
+//       return (new List({
+//         issueId: data.issueId,
+//         digitalId: data.digitalId,
+//         title: data.title,
+//         issue: data.issue,
+//         thumbnail: data.thumbnail,
+//         url: data.url,
+//         listCollection: data.listCollection,
+//         read: false,
+//       }))
+//     })
+//     console.log(savedData)
+//     List.insertMany(savedData, (err, savedResponse) => {
+//       if (err) {
+//         callback(err, null);
+//       } else {
+//         callback(null, savedResponse);
+//       }
+//     })
